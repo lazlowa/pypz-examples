@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pypz-example-project"
+version = "0.0.1"
+description = "..."
+readme = "README.md"
+requires-python = ">=3.11"
+keywords = [
+    "pypz"
+]
+dependencies = [
+    "pypz-core",
+    "pypz-kafka-io",
+    "pypz-k8s-deployer",
+    "pypz-io-sniffer"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = true

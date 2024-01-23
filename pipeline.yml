@@ -1,0 +1,173 @@
+dependsOn: []
+name: pipeline
+parameters: {}
+spec:
+  expectedParameters: {}
+  location: null
+  name: pypz.example.pipeline:DemoPipeline
+  nestedInstanceType: <class 'pypz.core.specs.operator.Operator'>
+  nestedInstances:
+  - connections: []
+    dependsOn: []
+    name: writer
+    parameters:
+      operatorImageName: accessible-repository/pypz-example
+      replicationFactor: 3
+    spec:
+      expectedParameters:
+        operatorImageName:
+          currentValue: accessible-repository/pypz-example
+          description: null
+          required: false
+          type: str
+        replicationFactor:
+          currentValue: 3
+          description: null
+          required: false
+          type: int
+      location: null
+      name: pypz.example.writer:DemoWriterOperator
+      nestedInstanceType: <class 'pypz.core.specs.plugin.Plugin'>
+      nestedInstances:
+      - dependsOn: []
+        name: output_port
+        parameters:
+          channelConfig: {}
+          channelLocation: KAFKA_BROKER_URL
+          portOpenTimeoutMs: 0
+        spec:
+          expectedParameters:
+            channelConfig:
+              currentValue: {}
+              description: null
+              required: false
+              type: dict
+            channelLocation:
+              currentValue: KAFKA_BROKER_URL
+              description: null
+              required: true
+              type: str
+            portOpenTimeoutMs:
+              currentValue: 0
+              description: null
+              required: false
+              type: int
+          location: null
+          name: pypz.plugins.kafka_io.ports:KafkaChannelOutputPort
+          nestedInstanceType: null
+          nestedInstances: null
+          types:
+          - <class 'pypz.core.specs.plugin.OutputPortPlugin'>
+          - <class 'pypz.core.specs.plugin.ResourceHandlerPlugin'>
+          - <class 'pypz.core.specs.plugin.ExtendedPlugin'>
+      - dependsOn: []
+        name: logger
+        parameters:
+          channelLocation: KAFKA_BROKER_URL
+          logLevel: INFO
+        spec:
+          expectedParameters:
+            logLevel:
+              currentValue: INFO
+              description: null
+              required: false
+              type: str
+          location: null
+          name: pypz.plugins.loggers.default:DefaultLoggerPlugin
+          nestedInstanceType: null
+          nestedInstances: null
+          types:
+          - <class 'pypz.core.specs.plugin.LoggerPlugin'>
+      types:
+      - <class 'pypz.core.specs.operator.Operator'>
+  - connections:
+    - inputPortName: input_port
+      source:
+        instanceName: writer
+        outputPortName: output_port
+    dependsOn: []
+    name: reader
+    parameters:
+      operatorImageName: accessible-repository/pypz-example
+      replicationFactor: 3
+    spec:
+      expectedParameters:
+        operatorImageName:
+          currentValue: accessible-repository/pypz-example
+          description: null
+          required: false
+          type: str
+        replicationFactor:
+          currentValue: 3
+          description: null
+          required: false
+          type: int
+      location: null
+      name: pypz.example.reader:DemoReaderOperator
+      nestedInstanceType: <class 'pypz.core.specs.plugin.Plugin'>
+      nestedInstances:
+      - dependsOn: []
+        name: input_port
+        parameters:
+          channelConfig: {}
+          channelLocation: KAFKA_BROKER_URL
+          portOpenTimeoutMs: 0
+          sequentialModeEnabled: false
+          syncConnectionsOpen: false
+        spec:
+          expectedParameters:
+            channelConfig:
+              currentValue: {}
+              description: null
+              required: false
+              type: dict
+            channelLocation:
+              currentValue: KAFKA_BROKER_URL
+              description: null
+              required: true
+              type: str
+            portOpenTimeoutMs:
+              currentValue: 0
+              description: null
+              required: false
+              type: int
+            sequentialModeEnabled:
+              currentValue: false
+              description: null
+              required: false
+              type: bool
+            syncConnectionsOpen:
+              currentValue: false
+              description: null
+              required: false
+              type: bool
+          location: null
+          name: pypz.plugins.kafka_io.ports:KafkaChannelInputPort
+          nestedInstanceType: null
+          nestedInstances: null
+          types:
+          - <class 'pypz.core.specs.plugin.InputPortPlugin'>
+          - <class 'pypz.core.specs.plugin.ResourceHandlerPlugin'>
+          - <class 'pypz.core.specs.plugin.ExtendedPlugin'>
+      - dependsOn: []
+        name: logger
+        parameters:
+          channelLocation: KAFKA_BROKER_URL
+          logLevel: DEBUG
+        spec:
+          expectedParameters:
+            logLevel:
+              currentValue: DEBUG
+              description: null
+              required: false
+              type: str
+          location: null
+          name: pypz.plugins.loggers.default:DefaultLoggerPlugin
+          nestedInstanceType: null
+          nestedInstances: null
+          types:
+          - <class 'pypz.core.specs.plugin.LoggerPlugin'>
+      types:
+      - <class 'pypz.core.specs.operator.Operator'>
+  types:
+  - <class 'pypz.core.specs.pipeline.Pipeline'>
