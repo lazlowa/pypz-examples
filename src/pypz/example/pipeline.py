@@ -20,16 +20,30 @@ from pypz.example.writer import DemoWriterOperator
 
 
 class DemoPipeline(Pipeline):
+    """
+    A pipeline includes a set of operators that are (usually) connected to each other.
+    """
+
     def __init__(self, name: str, *args, **kwargs):
         super().__init__(name, *args, **kwargs)
 
+        # Notice that the "name" ctor argument is omitted, hence the framework
+        # will use the variable's name as operator instance name
         self.reader = DemoReaderOperator()
         self.writer = DemoWriterOperator()
 
+        """ Operator connections are defined on pipeline level. However one can
+            dynamically define as well outside of the pipeline before execution or
+            deployment."""
+        self.reader.input_port.connect(self.writer.output_port)
+
+        """ The parameter "operatorImageName" is required, if the operators are built
+            into Docker images and deployed through container orchestration like Kubernetes"""
         self.reader.set_parameter("operatorImageName", "accessible-repository/pypz-example")
         self.writer.set_parameter("operatorImageName", "accessible-repository/pypz-example")
 
+        """ The parameter "replicationFactor" can be used to create replicas of the operator.
+            Note that a replicationFactor=3 means that along with the original 3 additional
+            replicas will be created i.e., 4 operator instances will be created."""
         self.writer.set_parameter("replicationFactor", 3)
         self.reader.set_parameter("replicationFactor", 3)
-
-        self.reader.input_port.connect(self.writer.output_port)

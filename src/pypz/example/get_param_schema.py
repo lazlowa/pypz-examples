@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # =============================================================================
-from pypz.sniffer.viewer import PipelineSnifferViewer
+from pypz.executors.pipeline.executor import PipelineExecutor
 
 from pypz.example.pipeline import DemoPipeline
 
@@ -28,9 +28,7 @@ if __name__ == "__main__":
     """ Since this example uses kafka ports, the parameter "channelLocation" shall be set
         tp a valid Kafka broker's URL. """
 
-    sniffer = PipelineSnifferViewer(pipeline)
-    """ The IO sniffer is used to monitor the ports' activities like in what states
-        are the ports in, how many records have been sent/received etc. This tool
-        is useful to understand the behaviour of the pipeline. """
-
-    sniffer.mainloop()
+    """ You can check the parameter schema like this. It will print out all the expected parameters.
+        Notice that the term expected parameter covers both the required and optional parameters. """
+    print(pipeline.writer.get_expected_parameters())
+    print(pipeline.reader.input_port.get_expected_parameters())

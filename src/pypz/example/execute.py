@@ -19,8 +19,19 @@ from pypz.example.pipeline import DemoPipeline
 
 if __name__ == "__main__":
     pipeline = DemoPipeline("pipeline")
+    """ Notice that unlike in the case of plugins and operators, the "name" ctor argument
+        is defined here. The reason is that to use the variables' name as instance name,
+        we need to control the context, where the variable is set. This is the case for
+        plugins and operators, but not for pipelines, hence it is required to provide
+        an instance name for pipelines."""
     pipeline.set_parameter(">>channelLocation", "KAFKA_BROKER_URL")
+    """ Since this example uses kafka ports, the parameter "channelLocation" shall be set
+        tp a valid Kafka broker's URL. """
 
     executor = PipelineExecutor(pipeline)
+    """ The PipelineExecutor executes the entire pipeline locally. This executor
+        has the only purpose to test the pipeline execution and not meant to be
+        used for production workloads. """
+
     executor.start()
     executor.shutdown()

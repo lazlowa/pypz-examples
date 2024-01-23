@@ -22,6 +22,9 @@ from pypz.plugins.loggers.default import DefaultLoggerPlugin
 
 
 class DemoWriterOperator(Operator):
+    """
+    This operator sends avro records to the receiving operators.
+    """
 
     AvroSchemaString = """
     {
@@ -40,15 +43,32 @@ class DemoWriterOperator(Operator):
         super().__init__(name, *args, **kwargs)
 
         self.output_port = KafkaChannelOutputPort(schema=DemoWriterOperator.AvroSchemaString)
+        """
+        An output port enables the operator to send data to other operators. 
+        The connection is usually established on the pipeline level.
+        """
 
         self.output_record_count: int = 0
 
         self.logger = DefaultLoggerPlugin()
+        """
+        A logger plugin enables the framework to handle logs from the framework. The default
+        logger puts the messages to stdout.
+        """
 
     def _on_init(self) -> bool:
+        """
+        This method shall implement the logic to initialize the operation.
+        :return: True succeeded, False if more iteration required (to not block the execution)
+        """
         return True
 
     def _on_running(self) -> Optional[bool]:
+        """
+        This method shall implement the actual processing logic.
+        :return: True succeeded, False if more iteration required (to not block the execution), None if
+        framework shall decide
+        """
         record_to_send = {
             "text": "HelloWorld_" + str(self.output_record_count)
         }
@@ -67,11 +87,24 @@ class DemoWriterOperator(Operator):
         return False
 
     def _on_shutdown(self) -> bool:
+        """
+        This method shall implement the logic to shut down the operation.
+        :return: True succeeded, False if more iteration required (to not block the execution)
+        """
         return True
 
     def _on_interrupt(self, system_signal: int = None) -> None:
+        """
+        This method can be implemented to react to interrupt signals like
+        SIGINT, SIGTERM etc. The specs implementation can then execute interrupt
+        logic e.g., early termination of loops.
+        :param system_signal: id of the system signal that causes interrupt
+        """
         pass
 
     def _on_error(self) -> None:
+        """
+        This method can be implemented to react to error events during
+        execution. The error itself may come from arbitrary sources.
+        """
         pass
-
