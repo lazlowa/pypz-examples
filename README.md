@@ -8,11 +8,12 @@ in the pypz repository.
 For this example you will need the following:
 - an IDE of your choice, however the project used PyCharm
 - access to a Kafka cluster, since the operators are using Kafka based IO ports
+  (you can use the confluentinc/confluent-local image)
 
 ## Optional
 Optional, because you can create run the pipelines without the following:
-- access to a Docker image repository
-- access to a Kubernetes Cluster
+- access to a Kubernetes Cluster (you can use Kind locally: https://kind.sigs.k8s.io/) 
+- access to a Docker image repository (not necessary if Kind used)
 
 # Build artifacts
 
