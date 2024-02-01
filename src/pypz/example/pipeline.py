@@ -27,8 +27,8 @@ class DemoPipeline(Pipeline):
     def __init__(self, name: str, *args, **kwargs):
         super().__init__(name, *args, **kwargs)
 
-        # Notice that the "name" ctor argument is omitted, hence the framework
-        # will use the variable's name as operator instance name
+        """ Notice that the "name" ctor argument is omitted, hence the framework
+            will use the variable's name as operator instance name """
         self.reader = DemoReaderOperator()
         self.writer = DemoWriterOperator()
 

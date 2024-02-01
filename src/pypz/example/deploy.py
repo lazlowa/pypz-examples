@@ -18,21 +18,25 @@ from pypz.deployers.k8s import KubernetesDeployer
 from pypz.example.pipeline import DemoPipeline
 
 if __name__ == "__main__":
-    pipeline = DemoPipeline("pipeline")
     """ Notice that unlike in the case of plugins and operators, the "name" ctor argument
         is defined here. The reason is that to use the variables' name as instance name,
         we need to control the context, where the variable is set. This is the case for
         plugins and operators, but not for pipelines, hence it is required to provide
         an instance name for pipelines."""
-    pipeline.set_parameter(">>channelLocation", "KAFKA_BROKER_URL")
+    pipeline = DemoPipeline("pipeline")
+
     """ Since this example uses kafka ports, the parameter "channelLocation" shall be set
         tp a valid Kafka broker's URL. """
+    pipeline.set_parameter(">>channelLocation", "KAFKA_BROKER_URL")
 
-    deployer = KubernetesDeployer(namespace="NAMESPACE")
+    """ Sets the required parameter of the DemoWriterOperator """
+    pipeline.writer.set_parameter("recordCount", 30)
+
     """ The KubernetesDeployer is an implementation of the Deployer interface, which
         allows the deployment of entire pipelines on Kubernetes. For each operator a
         Pod will be created and executed. The pipeline configuration is stored as
         secret. """
+    deployer = KubernetesDeployer(namespace="NAMESPACE")
 
     if not deployer.is_deployed(pipeline.get_full_name()):
         deployer.deploy(pipeline)
