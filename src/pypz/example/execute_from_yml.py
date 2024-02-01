@@ -21,6 +21,10 @@ if __name__ == "__main__":
     with open('../../../pipeline.yml') as yml_file:
         pipeline = Pipeline.create_from_string(yml_file.read())
 
+    """ Note that you will not be able to execute this pipeline until 
+        you did not modify the parameters in the YAML file. You need 
+        to set the 'channelLocation' parameter! """
+
     executor = PipelineExecutor(pipeline)
     executor.start()
     executor.shutdown()
