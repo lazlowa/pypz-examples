@@ -17,6 +17,12 @@ from pypz.executors.pipeline.executor import PipelineExecutor
 
 from pypz.example.pipeline import DemoPipeline
 
+"""
+This example shows, how to use the PipelineExecutor to execute your pipeline
+locally on your computer. Note that you should use this method for testing
+and not for productive workload.
+"""
+
 if __name__ == "__main__":
     """ Notice that unlike in the case of plugins and operators, the "name" ctor argument
         is defined here. The reason is that to use the variables' name as instance name,

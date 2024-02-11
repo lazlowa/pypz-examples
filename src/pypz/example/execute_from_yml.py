@@ -16,6 +16,11 @@
 from pypz.core.specs.pipeline import Pipeline
 from pypz.executors.pipeline.executor import PipelineExecutor
 
+"""
+This example shows, how to create a Pipeline instance object from a configuration
+stored in a yaml file and, how to execute it locally with the PipelineExecutor.
+Note that you should use PipelineExecutor for testing and not for productive workload.
+"""
 
 if __name__ == "__main__":
     with open('../../../pipeline.yml') as yml_file:

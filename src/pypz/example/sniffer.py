@@ -17,6 +17,11 @@ from pypz.sniffer.viewer import PipelineSnifferViewer
 
 from pypz.example.pipeline import DemoPipeline
 
+"""
+This example shows, how to use the IO Sniffer to visualize the states of the
+operators' IO ports.
+"""
+
 if __name__ == "__main__":
     """ Notice that unlike in the case of plugins and operators, the "name" ctor argument
         is defined here. The reason is that to use the variables' name as instance name,

@@ -17,6 +17,15 @@ from pypz.sniffer.viewer import PipelineSnifferViewer
 
 from pypz.deployers.k8s import KubernetesDeployer
 
+"""
+This example shows, how to use the IO Sniffer to visualize the states of the
+operators' IO ports. In addition, it retrieves a pipeline instance deployed
+on Kubernetes instead of creating an object in the code. This ensures
+consistency, since it you would have a pipeline instance, which you deploy
+and an other instance from the same spec, which you sniff, the you always
+need to make sure that the same parameters are set for both, which is
+error prone.
+"""
 
 if __name__ == "__main__":
     deployer = KubernetesDeployer(namespace="NAMESPACE")

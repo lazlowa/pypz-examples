@@ -17,6 +17,11 @@ from pypz.deployers.k8s import KubernetesDeployer
 
 from pypz.example.pipeline import DemoPipeline
 
+"""
+This example shows, how to create a pipeline object and how to deploy it 
+onto a Kubernetes cluster with the KubernetesDeployer.
+"""
+
 if __name__ == "__main__":
     """ Notice that unlike in the case of plugins and operators, the "name" ctor argument
         is defined here. The reason is that to use the variables' name as instance name,
@@ -38,8 +43,13 @@ if __name__ == "__main__":
         secret. """
     deployer = KubernetesDeployer(namespace="NAMESPACE")
 
+    """ Deploy only, if it is not yet deployed """
     if not deployer.is_deployed(pipeline.get_full_name()):
         deployer.deploy(pipeline)
 
+    """ Attach to the deployed pipeline, which blocks the execution until the
+        pipeline is finished i.e., all operators are finished in the pipeline. """
     deployer.attach(pipeline.get_full_name())
+
+    """ Destroy all pipeline related resources on Kubernetes """
     deployer.destroy(pipeline.get_full_name())

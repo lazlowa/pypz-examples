@@ -17,6 +17,12 @@ from pypz.executors.pipeline.executor import PipelineExecutor
 
 from pypz.example.pipeline import DemoPipeline
 
+"""
+This example shows, how to get and display the parameter schema of an instance.
+This might be useful, if you are uncertain, what parameters can/shall be
+configured for the given instance.
+"""
+
 if __name__ == "__main__":
     """ Notice that unlike in the case of plugins and operators, the "name" ctor argument
         is defined here. The reason is that to use the variables' name as instance name,
