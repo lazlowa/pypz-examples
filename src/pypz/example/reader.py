@@ -15,6 +15,7 @@
 # =============================================================================
 from typing import Optional
 
+from pypz.core.commons.parameters import OptionalParameter
 from pypz.core.specs.operator import Operator
 from pypz.plugins.kafka_io.ports import KafkaChannelInputPort
 from pypz.plugins.loggers.default import DefaultLoggerPlugin
@@ -39,6 +40,12 @@ class DemoReaderOperator(Operator):
     }
     """
 
+    raise_error_after_record_count = OptionalParameter(int,
+                                                       alt_name="raiseErrorAfterRecordCount",
+                                                       description="If set to a non-negative value, the operator will"
+                                                                   "raise an error after it received the specified"
+                                                                   "number of records")
+
     def __init__(self, name: str = None, *args, **kwargs):
         super().__init__(name, *args, **kwargs)
 
@@ -61,6 +68,13 @@ class DemoReaderOperator(Operator):
         By default the log level is INFO. One can change it via plugin parameter.
         """
 
+        self.received_record_count = 0
+        """
+        Stores, how many records have been received
+        """
+
+        self.raise_error_after_record_count = None
+
     def _on_init(self) -> bool:
         """
         This method shall implement the logic to initialize the operation.
@@ -75,6 +89,14 @@ class DemoReaderOperator(Operator):
         framework shall decide
         """
         records = self.input_port.retrieve()
+
+        self.received_record_count += len(records)
+
+        if ((self.raise_error_after_record_count is not None) and
+                (self.raise_error_after_record_count <= self.received_record_count)):
+            raise BrokenPipeError(f"Test error after received the specified record count: "
+                                  f"{self.raise_error_after_record_count} / {self.received_record_count}")
+
         for record in records:
             self.get_logger().debug(f"Received record: {record}")
 
