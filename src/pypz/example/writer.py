@@ -14,7 +14,7 @@
 # limitations under the License.
 # =============================================================================
 import time
-from typing import Optional
+from typing import Optional, Any
 
 from pypz.core.commons.parameters import OptionalParameter, RequiredParameter
 from pypz.core.specs.operator import Operator
@@ -121,7 +121,7 @@ class DemoWriterOperator(Operator):
         """
         pass
 
-    def _on_error(self) -> None:
+    def _on_error(self, source: Any, exception: Exception) -> None:
         """
         This method can be implemented to react to error events during
         execution. The error itself may come from arbitrary sources.

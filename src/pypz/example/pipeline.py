@@ -32,8 +32,8 @@ class DemoPipeline(Pipeline):
         self.reader = DemoReaderOperator()
         self.writer = DemoWriterOperator()
 
-        """ Operator connections are defined on pipeline level. However one can
-            dynamically define as well outside of the pipeline before execution or
+        """ Operator connections are defined on pipeline level. However, one can
+            dynamically define as well outside the pipeline before execution or
             deployment."""
         self.reader.input_port.connect(self.writer.output_port)
 

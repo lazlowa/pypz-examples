@@ -15,6 +15,7 @@ keywords = [
 dependencies = [
     "pypz-core",
     "pypz-kafka-io",
+    "pypz-rmq-io",
     "pypz-k8s-deployer",
     "pypz-io-sniffer"
 ]
